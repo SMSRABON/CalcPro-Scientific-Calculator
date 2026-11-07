@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>CalcPro — Scientific Calculator</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d30;--panel2:#19263c;--text:#eef4ff;--muted:#94a7c3;--line:rgba(255,255,255,.1);--accent:#8b72ff;--accent2:#4da3ff;--good:#36c995;--danger:#ff647c;--shadow:0 18px 50px #0003}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,#26385f 0,transparent 35%),radial-gradient(circle at 100% 90%,#34224f 0,transparent 32%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+body.light{--bg:#eef2fa;--panel:#fff;--panel2:#f4f6fc;--text:#18243a;--muted:#687993;--line:rgba(20,35,60,.12);--shadow:0 15px 40px #23375b14;background:radial-gradient(circle at 10% 0%,#dce7ff 0,transparent 36%),#eef2fa}
+button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}.app{max-width:1380px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px}.logo{height:48px;width:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:24px;box-shadow:0 9px 25px #7663ff55}.brand h1{font-size:22px;margin:0;letter-spacing:.5px}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}.top-actions{display:flex;gap:8px}.topbtn{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 13px;box-shadow:var(--shadow)}.tabs{display:flex;gap:7px;overflow:auto;padding:5px 0 15px}.tab{white-space:nowrap;padding:10px 15px;border-radius:11px;background:var(--panel);border:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:750}.tab.active{background:linear-gradient(135deg,var(--accent),#5b8dff);color:#fff;border-color:transparent}.main{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px;align-items:start}.panel,.side{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:21px;box-shadow:var(--shadow)}.panel{padding:19px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.panel-head h2{font-size:17px;margin:0}.panel-head p{font-size:12px;color:var(--muted);margin:4px 0 0}.mode{background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:8px 10px;border-radius:10px;font-size:12px}.display{border:1px solid var(--line);background:linear-gradient(135deg,#0c1729,#182944);border-radius:17px;padding:17px 18px;margin-bottom:14px;min-height:130px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}.light .display{background:linear-gradient(135deg,#e7edfa,#f7f9ff)}.expression{font-size:clamp(16px,2vw,23px);color:#aab8d0;min-height:28px;overflow-wrap:anywhere;text-align:right}.light .expression{color:#60718c}.result{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:.3px;text-align:right;overflow-wrap:anywhere;color:#fff}.light .result{color:#18243a}.display-meta{display:flex;justify-content:space-between;color:#91a5c5;font-size:11px}.keypad{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.key{min-height:51px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-size:14px;font-weight:750;transition:transform .12s,border-color .12s,filter .12s}.key:hover{border-color:#9b88ff;filter:brightness(1.08)}.key:active{transform:scale(.96)}.key.fn{color:#b8aaff;background:#6f5bd51b}.light .key.fn{color:#644bd0}.key.op{color:#72b5ff;background:#3b91ed18}.key.danger{color:#ff8094;background:#ff647c16}.key.equal{background:linear-gradient(135deg,#8b72ff,#4e91ff);color:#fff;border:0;font-size:20px}.key.zero{grid-column:span 2}.side{padding:17px}.side h3{font-size:14px;margin:0 0 12px}.side-section+.side-section{border-top:1px solid var(--line);margin-top:16px;padding-top:15px}.history-list{display:grid;gap:7px;max-height:290px;overflow:auto}.history-item{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;text-align:left;width:100%}.history-item small{display:block;color:var(--muted);font-size:10px;overflow-wrap:anywhere}.history-item strong{display:block;text-align:right;margin-top:4px;font-size:14px}.empty{color:var(--muted);font-size:12px;text-align:center;padding:20px 5px}.smallbtn{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:11px;font-weight:700}.side-row{display:flex;justify-content:space-between;align-items:center;gap:8px}.hint{color:var(--muted);font-size:11px;line-height:1.55}.tool-view{display:none}.tool-view.active{display:block}.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.field input,.field select{width:100%;padding:11px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);color:var(--text);outline:none}.field select option{color:#172238}.action{padding:11px 15px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#548eff);color:#fff;font-weight:800;font-size:12px}.output{padding:14px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);margin-top:12px;overflow-wrap:anywhere}.output strong{font-size:18px}.graph-wrap{margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:8px}.graph{width:100%;height:360px;display:block}.graph-legend{font-size:11px;color:var(--muted);margin:7px 4px}.footer{text-align:center;color:var(--muted);font-size:11px;padding:22px 0 5px}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;background:#17243a;color:#fff;padding:11px 15px;border-radius:11px;font-size:12px;transition:.2s;pointer-events:none;z-index:9}.toast.show{opacity:1;transform:translate(-50%,0)}.hidden{display:none!important}
+@media(max-width:950px){.main{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr;gap:14px}.side-section+.side-section{border-top:0;margin-top:0;padding-top:0}.side-section:last-child{grid-column:1/-1}}
+@media(max-width:600px){.app{padding:12px}.brand h1{font-size:19px}.logo{width:42px;height:42px}.topbtn{padding:9px}.panel{padding:12px;border-radius:16px}.keypad{gap:6px}.key{min-height:46px;font-size:12px;border-radius:10px}.side{padding:13px;grid-template-columns:1fr}.side-section+.side-section{border-top:1px solid var(--line);margin-top:12px;padding-top:12px}.side-section:last-child{grid-column:auto}.tool-grid{grid-template-columns:1fr}.graph{height:270px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="brand"><div class="logo">∑</div><div><h1>Calc<span style="color:#9b87ff">Pro</span></h1><p>Scientific • Graphing • Converter • Programmer</p></div></div>
+ <div class="top-actions"><button class="topbtn" id="themeBtn" title="Toggle theme">☀️</button><button class="topbtn" id="copyBtn" title="Copy result">⧉</button></div>
+</header>
+<nav class="tabs">
+ <button class="tab active" data-tab="calc">🧮 Calculator</button><button class="tab" data-tab="graph">📈 Graph</button><button class="tab" data-tab="unit">⇄ Unit Converter</button><button class="tab" data-tab="programmer">⌨ Programmer</button>
+</nav>
+<main>
+<section class="tool-view active" id="calc">
+ <div class="main">
+  <section class="panel">
+   <div class="panel-head"><div><h2>Scientific Calculator</h2><p>Casio-inspired functions with a modern interface</p></div><select class="mode" id="angleMode"><option value="DEG">DEG</option><option value="RAD">RAD</option></select></div>
+   <div class="display">
+    <div class="display-meta"><span id="angleLabel">DEG MODE</span><span id="memoryLabel">MEM: 0</span></div>
+    <div class="expression" id="expression">0</div><div class="result" id="result">0</div>
+   </div>
+   <div class="keypad" id="keypad">
+    <button class="key fn" data-insert="sin(">sin</button><button class="key fn" data-insert="cos(">cos</button><button class="key fn" data-insert="tan(">tan</button><button class="key fn" data-insert="asin(">sin⁻¹</button><button class="key fn" data-insert="acos(">cos⁻¹</button><button class="key fn" data-insert="atan(">tan⁻¹</button>
+    <button class="key fn" data-insert="log(">log</button><button class="key fn" data-insert="ln(">ln</button><button class="key fn" data-insert="sqrt(">√</button><button class="key fn" data-insert="cbrt(">∛</button><button class="key fn" data-insert="^2">x²</button><button class="key fn" data-insert="^">xʸ</button>
+    <button class="key fn" data-insert="(">(</button><button class="key fn" data-insert=")">)</button><button class="key fn" data-insert="pi">π</button><button class="key fn" data-insert="e">e</button><button class="key fn" data-insert="!">x!</button><button class="key fn" data-insert="abs(">abs</button>
+    <button class="key danger" data-action="clear">AC</button><button class="key danger" data-action="delete">DEL</button><button class="key op" data-insert="%">%</button><button class="key op" data-insert="/">÷</button><button class="key op" data-insert="*">×</button><button class="key op" data-insert="^(-1)">1/x</button>
+    <button class="key" data-insert="7">7</button><button class="key" data-insert="8">8</button><button class="key" data-insert="9">9</button><button class="key op" data-insert="-">−</button><button class="key fn" data-action="memory-clear">MC</button><button class="key fn" data-action="memory-recall">MR</button>
+    <button class="key" data-insert="4">4</button><button class="key" data-insert="5">5</button><button class="key" data-insert="6">6</button><button class="key op" data-insert="+">+</button><button class="key fn" data-action="memory-add">M+</button><button class="key fn" data-action="memory-sub">M−</button>
+    <button class="key" data-insert="1">1</button><button class="key" data-insert="2">2</button><button class="key" data-insert="3">3</button><button class="key fn" data-action="ans">Ans</button><button class="key fn" data-insert="sqrt(">√x</button><button class="key fn" data-insert="^3">x³</button>
+    <button class="key zero" data-insert="0">0</button><button class="key" data-insert=".">.</button><button class="key op" data-insert="*">×</button><button class="key equal" data-action="equals">=</button>
+   </div>
+   <p class="hint" style="margin:12px 2px 0">Keyboard: numbers and operators • Enter = • Backspace = delete • Escape = clear. Trigonometry follows the selected DEG/RAD mode.</p>
+  </section>
+  <aside class="side">
+   <div class="side-section"><div class="side-row"><h3>Calculation History</h3><button class="smallbtn" id="clearHistory">Clear</button></div><div class="history-list" id="history"><div class="empty">Your calculations will appear here.</div></div></div>
+   <div class="side-section"><h3>Memory Controls</h3><p class="hint">Store the current result with M+. Subtract it with M−, recall it with MR, or clear memory with MC.</p><div class="side-row"><span class="hint">Stored value</span><strong id="memoryValue">0</strong></div></div>
+   <div class="side-section"><h3>Quick Reference</h3><p class="hint">sin, cos, tan • log (base 10) • ln (natural log) • π (pi) • e (Euler's number) • ! (factorial) • % (percentage)</p></div>
+  </aside>
+ </div>
+</section>
+<section class="tool-view" id="graph">
+ <div class="panel">
+  <div class="panel-head"><div><h2>Function Grapher</h2><p>Plot a function of x on a coordinate plane</p></div><span class="mode">2D PLOT</span></div>
+  <div class="tool-grid">
+   <div class="field"><label for="graphExpr">Function y = f(x)</label><input id="graphExpr" value="sin(x)" placeholder="e.g. x^2, sin(x), log(x)"></div>
+   <div class="field"><label for="graphRange">X range (±)</label><input id="graphRange" type="number" value="10" min="1" max="1000"></div>
+  </div>
+  <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:12px"><button class="action" id="plotBtn">Plot Graph</button><button class="smallbtn" id="graphReset">Reset View</button><span class="hint" style="align-self:center">Use x as the variable. Trigonometry uses the selected DEG/RAD mode.</span></div>
+  <div class="graph-wrap"><canvas id="graphCanvas" class="graph" width="1000" height="480"></canvas><div class="graph-legend" id="graphInfo">Enter a function and select Plot Graph.</div></div>
+ </div>
+</section>
+<section class="tool-view" id="unit">
+ <div class="panel">
+  <div class="panel-head"><div><h2>Unit Converter</h2><p>Convert common measurement units instantly</p></div><span class="mode">CONVERTER</span></div>
+  <div class="tool-grid">
+   <div class="field"><label for="unitCategory">Category</label><select id="unitCategory"><option value="length">Length</option><option value="mass">Mass / Weight</option><option value="temperature">Temperature</option><option value="area">Area</option><option value="volume">Volume</option><option value="speed">Speed</option><option value="time">Time</option><option value="data">Digital Storage</option></select></div>
+   <div class="field"><label for="unitValue">Value</label><input type="number" id="unitValue" value="1" step="any"></div>
+   <div class="field"><label for="unitFrom">From</label><select id="unitFrom"></select></div>
+   <div class="field"><label for="unitTo">To</label><select id="unitTo"></select></div>
+  </div>
+  <button class="action" id="convertBtn" style="margin-top:13px">Convert Units</button>
+  <div class="output"><div class="hint">Converted result</div><strong id="unitResult">1 meter = 100 centimeters</strong></div>
+ </div>
+</section>
+<section class="tool-view" id="programmer">
+ <div class="panel">
+  <div class="panel-head"><div><h2>Programmer Calculator</h2><p>Convert integers between common number systems</p></div><span class="mode">BASE CONVERTER</span></div>
+  <div class="tool-grid">
+   <div class="field"><label for="progValue">Enter integer</label><input id="progValue" value="255" inputmode="text" placeholder="Enter a number"></div>
+   <div class="field"><label for="progBase">Input base</label><select id="progBase"><option value="10">Decimal (DEC)</option><option value="2">Binary (BIN)</option><option value="8">Octal (OCT)</option><option value="16">Hexadecimal (HEX)</option></select></div>
+  </div>
+  <button class="action" id="progConvert" style="margin-top:13px">Convert Number</button>
+  <div class="tool-grid" style="margin-top:14px">
+   <div class="output"><div class="hint">Binary (BIN)</div><strong id="binOut">11111111</strong></div>
+   <div class="output"><div class="hint">Octal (OCT)</div><strong id="octOut">377</strong></div>
+   <div class="output"><div class="hint">Decimal (DEC)</div><strong id="decOut">255</strong></div>
+   <div class="output"><div class="hint">Hexadecimal (HEX)</div><strong id="hexOut">FF</strong></div>
+  </div>
+  <p class="hint" id="progError" style="color:var(--danger);margin-top:10px"></p>
+  <p class="hint">Supports signed integers within JavaScript's safe integer range.</p>
+ </div>
+</section>
+</main>
+<footer class="footer">CalcPro Scientific Calculator • Single-file web application</footer>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+'use strict';
+const $=id=>document.getElementById(id);
+let expr='',lastAnswer=0,memory=0,history=[],justEvaluated=false;
+const display=()=>{$('expression').textContent=expr||'0';$('memoryLabel').textContent='MEM: '+format(memory);$('memoryValue').textContent=format(memory)};
+function format(n){if(!Number.isFinite(n))return String(n);if(Object.is(n,-0))n=0;return Number(n.toPrecision(12)).toString()}
+function notify(s){const t=$('toast');t.textContent=s;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),1800)}
+function tokenize(input){
+ let s=input.replace(/π/g,'pi').replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/\s+/g,'');
+ const tokens=[];let i=0;
+ while(i<s.length){
+  const rest=s.slice(i);let m;
+  if((m=/^(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?/i.exec(rest))){tokens.push({type:'num',v:Number(m[0])});i+=m[0].length;continue}
+  if((m=/^[a-zA-Z_][a-zA-Z_0-9]*/.exec(rest))){tokens.push({type:'id',v:m[0].toLowerCase()});i+=m[0].length;continue}
+  const c=s[i];if('+-*/^()%!,'.includes(c)){tokens.push({type:'op',v:c});i++;continue}
+  throw Error('Invalid character: '+c);
+ }
+ // Implicit multiplication: 2pi, 2(3), (2)(3), pi(2), but not function followed by '('.
+ const out=[];
+ for(let j=0;j<tokens.length;j++){
+  const a=tokens[j],b=tokens[j+1];out.push(a);
+  if(!b)continue;
+  const left=a.type==='num'||(a.type==='id'&&!['sin','cos','tan','asin','acos','atan','log','ln','sqrt','cbrt','abs','floor','ceil','round','exp'].includes(a.v))||a.v===')'||a.v==='!';
+  const right=b.type==='num'||b.type==='id'||b.v==='(';
+  const functionCall=a.type==='id'&&['sin','cos','tan','asin','acos','atan','log','ln','sqrt','cbrt','abs','floor','ceil','round','exp'].includes(a.v)&&b.v==='(';
+  if(left&&right&&!functionCall)out.push({type:'op',v:'*'});
+ }
+ return out;
+}
+function evaluate(input,xValue){
+ const ts=tokenize(input);let pos=0;const angle=$('angleMode').value;
+ const funcs={
+  sin:v=>Math.sin(angle==='DEG'?v*Math.PI/180:v),cos:v=>Math.cos(angle==='DEG'?v*Math.PI/180:v),tan:v=>{let a=angle==='DEG'?v*Math.PI/180:v;if(Math.abs(Math.cos(a))<1e-14)throw Error('Undefined tangent');return Math.tan(a)},
+  asin:v=>{let r=Math.asin(v);return angle==='DEG'?r*180/Math.PI:r},acos:v=>{let r=Math.acos(v);return angle==='DEG'?r*180/Math.PI:r},atan:v=>{let r=Math.atan(v);return angle==='DEG'?r*180/Math.PI:r},
+  log:v=>Math.log10(v),ln:v=>Math.log(v),sqrt:v=>Math.sqrt(v),cbrt:v=>Math.cbrt(v),abs:v=>Math.abs(v),floor:v=>Math.floor(v),ceil:v=>Math.ceil(v),round:v=>Math.round(v),exp:v=>Math.exp(v)
+ };
+ function peek(v){return ts[pos]&&ts[pos].v===v}
+ function parseExpression(){let v=parseTerm();while(peek('+')||peek('-')){let op=ts[pos++].v,b=parseTerm();v=op==='+'?v+b:v-b}return v}
+ function parseTerm(){let v=parseUnary();while(peek('*')||peek('/')||peek('%')){let op=ts[pos++].v,b=parseUnary();if(op==='*')v*=b;else if(op==='/'){if(b===0)throw Error('Cannot divide by zero');v/=b}else v%=b}return v}
+ function parseUnary(){if(peek('+')){pos++;return parseUnary()}if(peek('-')){pos++;return -parseUnary()}return parsePower()}
+ function parsePower(){let v=parsePostfix();if(peek('^')){pos++;let b=parseUnary();v=Math.pow(v,b)}return v}
+ function parsePostfix(){let v=parsePrimary();while(peek('!')||peek('%')){let op=ts[pos++].v;if(op==='!'){if(!Number.isInteger(v)||v<0||v>170)throw Error('Factorial requires an integer from 0 to 170');let r=1;for(let k=2;k<=v;k++)r*=k;v=r}else v/=100}return v}
+ function parsePrimary(){
+  const t=ts[pos++];if(!t)throw Error('Incomplete expression');
+  if(t.type==='num')return t.v;
+  if(t.v==='('){let v=parseExpression();if(!peek(')'))throw Error('Missing closing bracket');pos++;return v}
+  if(t.type==='id'){
+   if(t.v==='pi')return Math.PI;if(t.v==='e')return Math.E;if(t.v==='ans')return lastAnswer;if(t.v==='x')return xValue??0;
+   if(funcs[t.v]){if(!peek('('))throw Error('Function needs parentheses');pos++;let v=parseExpression();if(!peek(')'))throw Error('Missing function bracket');pos++;return funcs[t.v](v)}
+  }
+  throw Error('Unexpected token: '+t.v);
+ }
+ const val=parseExpression();if(pos<ts.length)throw Error('Unexpected token: '+ts[pos].v);if(!Number.isFinite(val))throw Error('Result is not a real finite number');return val;
+}
+function preview(){if(!expr){$('result').textContent='0';return}try{$('result').textContent=format(evaluate(expr))}catch(e){$('result').textContent='…'}}
+function insert(v){if(justEvaluated&&!['+','-','*','/','^','%','!'].includes(v))expr='';justEvaluated=false;expr+=v;display();preview()}
+function clear(){expr='';justEvaluated=false;display();$('result').textContent='0'}
+function del(){expr=expr.slice(0,-1);justEvaluated=false;display();preview()}
+function calculate(){if(!expr)return;try{const value=evaluate(expr);lastAnswer=value;$('result').textContent=format(value);history.unshift({expr,result:format(value),time:new Date().toLocaleTimeString()});history=history.slice(0,40);renderHistory();justEvaluated=true;beepCalc()}catch(e){$('result').textContent='Error';notify(e.message)}}
+function beepCalc(){/* intentionally silent: calculator actions do not require audio */}
+function renderHistory(){$('history').innerHTML=history.length?history.map((h,i)=>`<button class="history-item" data-history="${i}"><small>${escapeHTML(h.expr)} · ${h.time}</small><strong>${escapeHTML(h.result)}</strong></button>`).join(''):'<div class="empty">Your calculations will appear here.</div>'}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('keypad').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset.action,v=b.dataset.insert;if(v!==undefined){insert(v);return}switch(a){case'clear':clear();break;case'delete':del();break;case'equals':calculate();break;case'ans':insert('ans');break;case'memory-clear':memory=0;display();notify('Memory cleared');break;case'memory-recall':insert('('+format(memory)+')');break;case'memory-add':try{memory+=evaluate(expr||'ans');display();notify('Added to memory')}catch(e){notify(e.message)}break;case'memory-sub':try{memory-=evaluate(expr||'ans');display();notify('Subtracted from memory')}catch(e){notify(e.message)}break}});
+$('history').addEventListener('click',e=>{const b=e.target.closest('[data-history]');if(!b)return;expr=history[Number(b.dataset.history)].expr;justEvaluated=false;display();preview()});
+$('clearHistory').addEventListener('click',()=>{history=[];renderHistory()});
+$('angleMode').addEventListener('change',()=>{$('angleLabel').textContent=$('angleMode').value+' MODE';preview()});
+document.addEventListener('keydown',e=>{if(['INPUT','SELECT'].includes(document.activeElement.tagName))return;if(/^[0-9.]$/.test(e.key)){insert(e.key);e.preventDefault()}else if(['+','-','*','/','(',')','%','^','!'].includes(e.key)){insert(e.key);e.preventDefault()}else if(e.key==='Enter'||e.key==='='){calculate();e.preventDefault()}else if(e.key==='Backspace'){del();e.preventDefault()}else if(e.key==='Escape'){clear();e.preventDefault()}});
+$('copyBtn').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('result').textContent);notify('Result copied')}catch(e){notify('Clipboard permission unavailable')}});
+$('themeBtn').addEventListener('click',()=>{document.body.classList.toggle('light');$('themeBtn').textContent=document.body.classList.contains('light')?'🌙':'☀️'});
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.tool-view').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab));if(b.dataset.tab==='graph')plotGraph()}));
+
+// Graphing reuses the same safe expression parser. The graph x values are interpreted in the selected angle mode.
+const gc=$('graphCanvas'),gctx=gc.getContext('2d');
+function plotGraph(){
+ const expr=$('graphExpr').value.trim()||'x',range=Math.max(1,Math.min(1000,Number($('graphRange').value)||10)),w=gc.width,h=gc.height;
+ gctx.clearRect(0,0,w,h);gctx.fillStyle=getComputedStyle(document.body).getPropertyValue('--panel2');gctx.fillRect(0,0,w,h);
+ const xMin=-range,xMax=range,yMin=-range,yMax=range;
+ const X=x=>(x-xMin)/(xMax-xMin)*w,Y=y=>h-(y-yMin)/(yMax-yMin)*h;
+ gctx.strokeStyle=document.body.classList.contains('light')?'#d2dbea':'#33445e';gctx.lineWidth=1;
+ for(let i=0;i<=20;i++){let x=i*w/20,y=i*h/20;gctx.beginPath();gctx.moveTo(x,0);gctx.lineTo(x,h);gctx.stroke();gctx.beginPath();gctx.moveTo(0,y);gctx.lineTo(w,y);gctx.stroke()}
+ gctx.strokeStyle=document.body.classList.contains('light')?'#64748b':'#a9bad3';gctx.lineWidth=2;gctx.beginPath();gctx.moveTo(X(0),0);gctx.lineTo(X(0),h);gctx.moveTo(0,Y(0));gctx.lineTo(w,Y(0));gctx.stroke();
+ gctx.fillStyle=document.body.classList.contains('light')?'#53647c':'#a9bad3';gctx.font='12px Arial';gctx.fillText('0',X(0)+5,Y(0)-6);gctx.fillText('x',w-15,Y(0)-8);gctx.fillText('y',X(0)+8,14);
+ try{gctx.strokeStyle='#9b83ff';gctx.lineWidth=3;gctx.beginPath();let started=false;for(let px=0;px<=w;px++){let x=xMin+(px/w)*(xMax-xMin),y=evaluate(expr,x),py=Y(y);if(!Number.isFinite(py)||py< -h*3||py>h*4){started=false;continue}if(!started){gctx.moveTo(px,py);started=true}else gctx.lineTo(px,py)}gctx.stroke();$('graphInfo').textContent='y = '+expr+'  |  x range: '+xMin+' to '+xMax+'  |  '+$('angleMode').value+' mode'}catch(e){$('graphInfo').textContent='Unable to plot: '+e.message}
+}
+$('plotBtn').addEventListener('click',plotGraph);$('graphReset').addEventListener('click',()=>{$('graphExpr').value='sin(x)';$('graphRange').value=10;plotGraph()});
+
+// Unit converter
+const units={
+ length:{meter:1,kilometer:1000,centimeter:.01,millimeter:.001,mile:1609.344,yard:.9144,foot:.3048,inch:.0254},
+ mass:{kilogram:1,gram:.001,milligram:.000001,tonne:1000,pound:.45359237,ounce:.028349523125},
+ area:{'square meter':1,'square kilometer':1e6,'square centimeter':.0001,'square foot':.09290304,acre:4046.8564224,hectare:10000},
+ volume:{liter:1,milliliter:.001,'cubic meter':1000,'US gallon':3.785411784,cup:.2365882365},
+ speed:{'meter/second':1,'kilometer/hour':1/3.6,'mile/hour':.44704,knot:.514444},
+ time:{second:1,millisecond:.001,minute:60,hour:3600,day:86400,week:604800},
+ data:{bit:1,byte:8,kilobyte:8000,kibibyte:8192,megabyte:8e6,mebibyte:8388608,gigabyte:8e9,gibibyte:8589934592}
+};
+function fillUnits(){const cat=$('unitCategory').value,keys=cat==='temperature'?['Celsius','Fahrenheit','Kelvin']:Object.keys(units[cat]);['unitFrom','unitTo'].forEach((id,idx)=>{$(id).innerHTML=keys.map(k=>`<option value="${k}">${k}</option>`).join('');$(id).selectedIndex=idx===0?0:Math.min(1,keys.length-1)});convertUnit()}
+function convertUnit(){const cat=$('unitCategory').value,v=Number($('unitValue').value),from=$('unitFrom').value,to=$('unitTo').value;if(!Number.isFinite(v)){$('unitResult').textContent='Enter a valid number';return}let out;if(cat==='temperature'){let c=from==='Celsius'?v:from==='Fahrenheit'?(v-32)*5/9:v-273.15;out=to==='Celsius'?c:to==='Fahrenheit'?c*9/5+32:c+273.15}else out=v*units[cat][from]/units[cat][to];$('unitResult').textContent=`${format(v)} ${from} = ${format(out)} ${to}`}
+$('unitCategory').addEventListener('change',fillUnits);$('unitValue').addEventListener('input',convertUnit);$('unitFrom').addEventListener('change',convertUnit);$('unitTo').addEventListener('change',convertUnit);$('convertBtn').addEventListener('click',convertUnit);
+
+// Programmer base converter
+function convertProgrammer(){const raw=$('progValue').value.trim(),base=Number($('progBase').value);try{if(!raw)throw Error('Enter a number');const n=Number.parseInt(raw,base);if(!Number.isSafeInteger(n)||n.toString(base).toLowerCase()!==raw.replace(/^0+(?=.)/,'').toLowerCase())throw Error('Invalid integer for selected base or outside safe range');$('binOut').textContent=n.toString(2);$('octOut').textContent=n.toString(8);$('decOut').textContent=n.toString(10);$('hexOut').textContent=n.toString(16).toUpperCase();$('progError').textContent=''}catch(e){$('progError').textContent=e.message}}
+$('progConvert').addEventListener('click',convertProgrammer);$('progValue').addEventListener('keydown',e=>{if(e.key==='Enter')convertProgrammer()});$('progBase').addEventListener('change',convertProgrammer);
+fillUnits();convertProgrammer();display();plotGraph();
+})();
+</script>
+</body>
+</html>
